@@ -3,16 +3,17 @@ import plotly.graph_objs as go
 import pandas as pd
 
 # Load CSV file from Datasets folder
-df = pd.read_csv('../Datasets/CoronaTimeSeries.csv')
+df = pd.read_csv('../Datasets/Weather2014-15.csv')
+df.sort_values(by=['day'], ascending=[False]).reset_index()
 
 # Preparing data
-data = [go.Heatmap(x=df['Day'],
-                   y=df['WeekofMonth'],
-                   z=df['Recovered'].values.tolist(),
+data = [go.Heatmap(x=df['day'],
+                   y=df['month'],
+                   z=df['actual_max_temp'].values.tolist(),
                    colorscale='Jet')]
 
 # Preparing layout
-layout = go.Layout(title='Corona Virus Recovered Cases', xaxis_title='Day of Week', yaxis_title='Week of Month')
+layout = go.Layout(title='Maximum Temperature by Day of Week and Month of Year', xaxis_title='Day of Week', yaxis_title='Month of Year')
 
 # Plot the figure and saving in a html file
 fig = go.Figure(data=data, layout=layout)

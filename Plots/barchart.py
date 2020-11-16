@@ -3,26 +3,26 @@ import plotly.offline as pyo
 import plotly.graph_objs as go
 
 # Load CSV file from Datasets folder
-df = pd.read_csv('../Datasets/CoronavirusTotal.csv')
+df = pd.read_csv('../Datasets/Olympic2016Rio.csv')
 
 # Filtering US Cases
-filtered_df = df[df['Country'] == 'US']
+#filtered_df = df[df['NOC'] == 'US']
 
 # Removing empty spaces from State column to avoid errors
-filtered_df = filtered_df.apply(lambda x: x.str.strip() if x.dtype == "object" else x)
+#filtered_df = filtered_df.apply(lambda x: x.str.strip() if x.dtype == "object" else x)
 
-# Creating sum of number of cases group by State Column
-new_df = filtered_df.groupby(['State'])['Confirmed'].sum().reset_index()
+# Creating sum of number of medals group by NOC Column
+new_df = df.groupby(['NOC'])['Total'].sum().reset_index()
 
-# Sorting values and select first 20 states
-new_df = new_df.sort_values(by=['Confirmed'], ascending=[False]).head(20)
+# Sorting values and select first 20 Countries
+new_df = new_df.sort_values(by=['Total'], ascending=[False]).head(20)
 
 # Preparing data
-data = [go.Bar(x=new_df['State'], y=new_df['Confirmed'])]
+data = [go.Bar(x=new_df['NOC'], y=new_df['Total'])]
 
 # Preparing layout
-layout = go.Layout(title='Corona Virus Confirmed Cases in The US', xaxis_title="States",
-                   yaxis_title="Number of confirmed cases")
+layout = go.Layout(title='Top 20 Countries Olympic 2016 Total Medals', xaxis_title="Country",
+                   yaxis_title="Number of Medals")
 
 # Plot the figure and saving in a html file
 fig = go.Figure(data=data, layout=layout)
